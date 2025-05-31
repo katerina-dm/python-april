@@ -1,0 +1,2 @@
+hello from codeПишу из файла a.py
+Пишу из файла a.py
