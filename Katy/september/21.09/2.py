@@ -16,7 +16,7 @@ def count_quotes():
 prev_count = count_quotes
 
 while True:
-    driver.execute_script("window.scrollTO(0, document.body.scroollHeight);")# получаем число и прокручиваем в самый низ страницы
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")# получаем число и прокручиваем в самый низ страницы
 
     try:
         wait.until(lambda x: len(x.find_elements(By.CSS_SELECTOR, ".qoute") > prev_count))
@@ -25,5 +25,19 @@ while True:
     except Exception:
         break
 
-time.sleep(10)
+data = [] # пустой список
+
+for quote in driver.find_elements(By.CSS_SELECTOR, ".quote"):
+    text = quote.find_element(By.CSS_SELECTOR,".text").text
+    author = quote.find_element(By.CSS_SELECTOR,".author").text
+    tags = ', '.join([t.text for t in quote.find_elements(By.CSS_SELECTOR, ".tag")])
+    data.append((text, author, tags))
+
+    #link = quote.find_element(By.CSS_SELECTOR,".text")
+
+time.sleep(5)
 driver.quit()
+
+for elem in data:
+    print(*elem, sep="\n")
+    print()
